@@ -12,6 +12,7 @@ import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,19 +40,23 @@ public class AuthenticationService {
     private String activationUrl;
 
     public void register(RegistrationRequest request) throws MessagingException {
-        var userRole = roleRepository.findByName("USER")
-                .orElseThrow(()->new IllegalArgumentException("ROLE USER was not initialize"));
-        var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .accountLocked(false)
-                .enabled(false)
-                .roles(List.of(userRole))
-                .build();
-        userRepository.save(user);
-        sendValidationEmail(user);
+        try {
+            var userRole = roleRepository.findByName("USER")
+                    .orElseThrow(() -> new IllegalArgumentException("ROLE USER was not initialize"));
+            var user = User.builder()
+                    .firstname(request.getFirstname())
+                    .lastname(request.getLastname())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .accountLocked(false)
+                    .enabled(false)
+                    .roles(List.of(userRole))
+                    .build();
+            userRepository.save(user);
+            sendValidationEmail(user);
+        }catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("Email address already exits");
+        }
         
     }
 

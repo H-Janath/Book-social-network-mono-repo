@@ -31,6 +31,7 @@ public class EmailService {
             String activationCode,
             String subject
     ) throws MessagingException {
+
         String templateName;
         if(emailTemplateName ==null){
             templateName = "confirm-email";

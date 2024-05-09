@@ -5,7 +5,10 @@
 /tmp
 /out-tsc
 /bazel-out
-
+.idea
+.gitignore
+.angular
+node_modules
 # Node
 /node_modules
 npm-debug.log

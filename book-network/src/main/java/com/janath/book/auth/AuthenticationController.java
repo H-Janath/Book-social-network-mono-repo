@@ -5,6 +5,7 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.Registration;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,18 @@ public class AuthenticationController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> register(
             @RequestBody @Valid RegistrationRequest request
-    ) throws MessagingException {
-        service.register(request);
-        return ResponseEntity.accepted().build();
+    ) {
+        try {
+            service.register(request);
+            return ResponseEntity.accepted().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (MessagingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending validation email.");
+        }catch (DataIntegrityViolationException e) {
+            String errorMessage = e.getRootCause().getMessage();
+            throw new IllegalArgumentException(errorMessage);
+        }
     }
 
 
