@@ -27,7 +27,7 @@ export class RegisterComponent {
                 this.router.navigate(['acitvate-account']);
               },
               error: (err) => {
-                console.log(err);
+
                 if(err.error.validationErrors) {
                   this.errorMsg = err.error.validationErrors;
                 }else{

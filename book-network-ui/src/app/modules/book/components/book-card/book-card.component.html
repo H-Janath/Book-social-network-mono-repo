@@ -13,9 +13,12 @@ style="width: 20rem;"
   </div>
   <div class="card-footer d-flex gap-2 justify-content-between align-items-center">
     <div class="d-flex gap-2">
-      5 stars
+      <app-rating [rating]="book.rate||0"></app-rating>
+      <span class="fa-bold" *ngIf="book.rate || 0 > 0">
+        {{book.rate}}
+      </span>
     </div>
-    <div class="d-flex gap-2" *ngif="!managed">
+    <div class="d-flex gap-2" *ngIf="!managed">
       <i (click)="onShowDetails()" class="fas fa-circle-info text-primary"></i>
       <i (click)="onBorrow()" class="fas fa-list-check text-primary"></i>
       <i (click)="onAddToWaitingList()" class="fas fa-heart text-danger"></i>
