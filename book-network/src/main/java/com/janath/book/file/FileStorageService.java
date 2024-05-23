@@ -1,6 +1,5 @@
 package com.janath.book.file;
 
-import com.janath.book.book.Book;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,10 +34,11 @@ public class FileStorageService {
     private String uploadFile(
             @NotNull MultipartFile sourceFile,
             @NotNull String fileUploadSubPath) {
-        final String finalUploadPath = fileUploadSubPath + separator + fileUploadSubPath;
+        log.info(fileUploadSubPath);
+        final String finalUploadPath = fileUploadPath + separator + fileUploadSubPath;
         File targetFolder = new File(finalUploadPath);
         if (!targetFolder.exists()) {
-            boolean folderCreated = targetFolder.mkdir();
+            boolean folderCreated = targetFolder.mkdirs();
             if (!folderCreated) {
                 log.warn("Failed to create folder");
                 return null;
