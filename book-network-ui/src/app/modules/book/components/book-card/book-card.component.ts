@@ -48,7 +48,7 @@ export class BookCardComponent {
   }
 
   onBorrow() {
-  this.borrower.emit(this._book);
+    this.borrower.emit(this._book);
   }
 
   onAddToWaitingList() {

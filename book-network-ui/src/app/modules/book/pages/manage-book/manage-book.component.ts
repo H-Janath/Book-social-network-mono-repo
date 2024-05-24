@@ -46,6 +46,7 @@ export class ManageBookComponent implements OnInit{
             }
             if(book.cover){
               this.selectedPicture = 'data:image/jpg;base64,' + book.cover;
+
             }
           }
         })
@@ -66,28 +67,49 @@ export class ManageBookComponent implements OnInit{
   }
 
   saveBook() {
-    this.bookService.saveBook({
-      body: this.bookRequest
-    }).subscribe({
+    // Save the book details
+    this.bookService.saveBook({ body: this.bookRequest }).subscribe({
       next: (bookId) => {
-        this.bookService.uploadBookCoverPicture({
-          'book-id': bookId,
-          body: {
-            file: this.selectedBookCover
-          }
-        }).subscribe({
-          next: () => {
-            this.router.navigate(['/books/my-books']);
-          }
-        });
+        // If a book cover is selected, upload the book cover picture
+        if (this.selectedBookCover) {
+          this.uploadBookCover(bookId);
+        } else {
+          // If no cover is selected, navigate directly to 'My Books' page
+          this.navigateToMyBooks();
+        }
       },
       error: (err) => {
+        // Handle error and display validation errors if any
         console.log(err.error);
         this.errorMsg = err.error.validationErrors;
       }
     });
   }
 
+  uploadBookCover(bookId: number) {
+    // Upload the book cover picture
+    this.bookService.uploadBookCoverPicture({
+      'book-id': bookId,
+      body: {
+        file: this.selectedBookCover
+      }
+    }).subscribe({
+      next: () => {
+        // Navigate to 'My Books' page after successful upload
+        this.navigateToMyBooks();
+      },
+      error: (err) => {
+        // Handle error (optional: you can add specific error handling for the upload process)
+        console.log(err.error);
+        // Navigate to 'My Books' even if the upload fails
+        this.navigateToMyBooks();
+      }
+    });
+  }
 
+  navigateToMyBooks() {
+    // Navigate to 'My Books' page
+    this.router.navigate(['/books/my-books']);
+  }
 
 }

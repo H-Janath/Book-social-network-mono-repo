@@ -13,6 +13,7 @@ public class BookMapper {
                 .authorName(request.authorName())
                 .synopsis(request.synopsis())
                 .archive(false)
+                .isbn(request.isbn())
                 .shareable(request.shareable())
                 .build();
     }
