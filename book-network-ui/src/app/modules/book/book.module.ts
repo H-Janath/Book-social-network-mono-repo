@@ -22,10 +22,13 @@ import {FormsModule} from "@angular/forms";
         MyBooksComponent,
         ManageBookComponent
     ],
-  imports: [
-    CommonModule,
-    BookRoutingModule,
-    FormsModule
-  ]
+    exports: [
+        RatingComponent
+    ],
+    imports: [
+        CommonModule,
+        BookRoutingModule,
+        FormsModule
+    ]
 })
 export class BookModule { }
