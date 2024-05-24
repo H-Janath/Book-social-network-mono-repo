@@ -12,6 +12,7 @@ import {CodeInputModule} from "angular-code-input";
 import {HttpTokenInterceptor} from "./services/interceptor/http-token.interceptor";
 import { BorrowedBookListComponent } from './pages/borrowed-book-list/borrowed-book-list.component';
 import {BookModule} from "./modules/book/book.module";
+import { ReturnBookComponent } from './pages/return-book/return-book.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {BookModule} from "./modules/book/book.module";
     LoginComponent,
     RegisterComponent,
     ActivateAccountComponent,
-    BorrowedBookListComponent
+    BorrowedBookListComponent,
+    ReturnBookComponent
   ],
   imports: [
     BrowserModule,
