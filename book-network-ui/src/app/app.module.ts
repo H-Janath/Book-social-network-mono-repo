@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_INITIALIZER } from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
-import { LoginComponent } from './pages/login/login.component';
+import { LoginComponent } from './pages/login/LoginComponent';
 import {FormsModule} from "@angular/forms";
 import { RegisterComponent } from './pages/register/register.component';
 import { ActivateAccountComponent } from './pages/activate-account/activate-account.component';
